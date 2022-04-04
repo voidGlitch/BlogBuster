@@ -32,5 +32,5 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
-//Make sure we dont get any other warning
+//Makes us sure we dont get any other warning
 mongoose.set("useFindAndModify", false);
