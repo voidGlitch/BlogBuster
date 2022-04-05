@@ -7,12 +7,17 @@ import useStyles from "./Styles";
 import { getPosts } from "./actions/posts";
 //Helps us to dispatch our action
 import { useDispatch } from "react-redux";
+//useSelector is a function that takes the current state as an argument and returns whatever data you want from it and it allows you to store the return values inside a variable within the scope of you functional components instead of passing down as props.
+import { useSelector } from "react-redux";
 
 const App = () => {
   const classes = useStyles();
   //Define dispatch
   const dispatch = useDispatch();
+  //define useSelectors
+  const posts = useSelector((state) => state.posts);
 
+  console.log(posts);
   //Now As we want our dispact to mount manually we use useEffect
   useEffect(() => {
     //Dispatch Takes a Function to call
@@ -43,7 +48,7 @@ const App = () => {
             <Grid item xs={12} sm={7}>
               <Posts />
             </Grid>
-            <Grid xs={7} sm={3}>
+            <Grid item xs={7} sm={3}>
               <Form />
             </Grid>
           </Grid>

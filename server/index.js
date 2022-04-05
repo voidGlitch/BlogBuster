@@ -6,10 +6,12 @@ import router from "./routes/posts.js";
 
 const app = express();
 
-app.use("/posts", router);
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+//We need to use this before routes as we dont get any proxy errors from the cors
 app.use(cors());
+
+app.use("/posts", router);
 
 //Step 1 Created a cluster database using Mongodb Atlas
 const CONNECTIONURL =

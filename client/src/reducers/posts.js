@@ -12,6 +12,6 @@ export default (posts = [], action) => {
       return posts;
 
     default:
-      posts;
+      return posts;
   }
 };
