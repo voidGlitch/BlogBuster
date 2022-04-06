@@ -13,3 +13,14 @@ export const getPosts = () => async (dispatch) => {
   // return action instead of returning the action we need to do just dispatch the action in redux-thunk
 };
 /*As we are dealing with ASYNCRONOUS function we need to await and for that we use thunk allows us in here an additional arrow function*/
+
+export const createPost = (post) => async (dispact) => {
+  try {
+    //As create posts function wants somedata to work on and then send it to the server
+    const { data } = await api.createPosts(post);
+    const action = { type: "CREATE", payload: data };
+    dispact(action);
+  } catch (error) {
+    console.log(error.message);
+  }
+};

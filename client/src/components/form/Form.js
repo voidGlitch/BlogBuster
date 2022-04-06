@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import useStyles from "./Styles";
 // React Component for Converting Files to base64
 import FileBase from "react-file-base64";
+import { useDispatch } from "react-redux";
+import { createPost } from "../../actions/posts";
+
 const Form = () => {
   const classes = useStyles();
   const [postData, setpostData] = useState({
@@ -12,14 +15,18 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
-  const handleSubmit = () => {};
+  const dispatch = useDispatch();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(createPost(postData));
+  };
   const clear = () => {};
   return (
     <Paper className={classes.paper}>
       <form
         autoComplete="off"
         noValidate
-        className={classes.form}
+        className={`${classes.form} ${classes.root}`}
         onSubmit={handleSubmit}
       >
         <Typography variant="h6">Creating a Blog</Typography>
@@ -63,9 +70,9 @@ const Form = () => {
           <FileBase
             type="file"
             multiple={false}
-            onDone={({ base64 }) => {
-              setpostData({ ...postData, selectedFile: base64 });
-            }}
+            onDone={({ base64 }) =>
+              setpostData({ ...postData, selectedFile: base64 })
+            }
           />
         </div>
         <Button
@@ -79,10 +86,12 @@ const Form = () => {
           Submit
         </Button>
         <Button
+          className={classes.buttonSubmit}
           variant="contained"
           color="secondary"
           onClick={clear}
-          size="small"
+          size="large"
+          fullWidth
         >
           Clear
         </Button>

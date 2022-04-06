@@ -9,7 +9,8 @@ export default (posts = [], action) => {
       return action.payload;
 
     case "CREATE":
-      return posts;
+      //Gonna return the post previously on the array and then the new Post
+      return [...posts, action.payload];
 
     default:
       return posts;
