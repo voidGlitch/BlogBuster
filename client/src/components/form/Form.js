@@ -1,12 +1,13 @@
 import { Button, Paper, TextField, Typography } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import useStyles from "./Styles";
 // React Component for Converting Files to base64
 import FileBase from "react-file-base64";
 import { useDispatch } from "react-redux";
-import { createPost } from "../../actions/posts";
+import { createPost, updatePost } from "../../actions/posts";
+import { useSelector } from "react-redux";
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const [postData, setpostData] = useState({
     creator: "",
@@ -15,10 +16,23 @@ const Form = () => {
     tags: "",
     selectedFile: "",
   });
+  //For updating post we first need to particular post from the array of posts from reducers
+  const post = useSelector((state) =>
+    currentId ? state.posts.find((p) => p._id === currentId) : null
+  );
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (post) setpostData(post);
+  }, [post]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createPost(postData));
+    console.log(postData);
+    //If we have the access to currentid we are going to update the Post by giving it the id and updated Data else creating it
+    if (currentId) {
+      dispatch(updatePost(currentId, postData));
+    } else {
+      dispatch(createPost(postData));
+    }
   };
   const clear = () => {};
   return (
@@ -46,7 +60,7 @@ const Form = () => {
           label="Title"
           fullWidth
           onChange={(e) => setpostData({ ...postData, Title: e.target.value })}
-          value={postData.Title}
+          value={postData.Title || ""}
         />
         <TextField
           name="message"

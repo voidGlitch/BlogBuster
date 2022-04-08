@@ -8,6 +8,11 @@ export default (posts = [], action) => {
     case "FETCH_ALL":
       return action.payload;
 
+    case "UPDATE":
+      //Going to map inside the post to check if the currently selected post is matched with updated post id
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case "CREATE":
       //Gonna return the post previously on the array and then the new Post
       return [...posts, action.payload];

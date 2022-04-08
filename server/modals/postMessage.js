@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 //Defines the Schema and modals for our app~
 const postSchema = mongoose.Schema({
-  title: String,
+  Title: String,
   message: String,
   creator: String,
   tags: [String],

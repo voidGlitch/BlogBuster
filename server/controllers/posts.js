@@ -29,10 +29,11 @@ export const updatePost = async (req, res) => {
   //params property is an object containing properties mapped to the named route “parameters”. For example, if you have the route /student/:id, then the “id” property is available as req.params.id.
   const { id: _id } = req.params;
   const post = req.body;
-
-  if (mongoose.Type.ObjectId.isValid(_id)) {
+  // To Check the _id that it is mongoose id
+  if (mongoose.Type.ObjectId.isValid(_id))
     return res.status(404).send("No post with this Id");
-  }
+
+  //Hold our modal and Find&update by given updated post data
   const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {
     new: true,
   });
