@@ -43,7 +43,7 @@ export const updatePost = async (req, res) => {
       new: true,
     }
   );
-  res.json(updatePost);
+  res.status(200).json(updatePost);
 };
 
 //Delete Post
@@ -55,4 +55,24 @@ export const deletePost = async (req, res) => {
   await PostMessage.findByIdAndDelete(_id);
 
   res.json({ message: "Post has been Deleted Successfully" });
+};
+
+//Like Post
+export const likePost = async (req, res) => {
+  const { id: _id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(_id))
+    return res.status(404).send("No post with this Id");
+
+  //Firstly We are going to find that particular post
+  const post = await PostMessage.findById(_id);
+
+  //Then update the post by taking that particular post then Adding a like in it
+  const updatedPost = await PostMessage.findByIdAndUpdate(
+    _id,
+    {
+      likeCount: post.likeCount + 1,
+    },
+    { new: true }
+  );
+  res.json(updatedPost);
 };

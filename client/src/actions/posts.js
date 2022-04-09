@@ -14,12 +14,12 @@ export const getPosts = () => async (dispatch) => {
 };
 /*As we are dealing with ASYNCRONOUS function we need to await and for that we use thunk allows us in here an additional arrow function*/
 
-export const createPost = (post) => async (dispact) => {
+export const createPost = (post) => async (dispatch) => {
   try {
     //As create posts function wants somedata to work on and then send it to the server
     const { data } = await api.createPosts(post);
     const action = { type: "CREATE", payload: data };
-    dispact(action);
+    dispatch(action);
   } catch (error) {
     console.log(error.message);
   }
@@ -36,13 +36,24 @@ export const updatePost = (id, post) => async (dispatch) => {
 };
 
 //Delete Post Function
-export const deletePost = (id) => async (dispact) => {
+export const deletePost = (id) => async (dispatch) => {
   try {
     //We dont need response of this as we are delete the data which is not existing anyways
     await api.deletePost(id);
 
     //Payload as id because we want to delete it
-    dispact({ type: "DELETE", payload: id });
+    dispatch({ type: "DELETE", payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+//Like post Function
+export const likePost = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.likePost(id);
+
+    dispatch({ type: "LIKE", payload: data });
   } catch (error) {
     console.log(error);
   }
