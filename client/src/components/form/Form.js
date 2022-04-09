@@ -26,15 +26,24 @@ const Form = ({ currentId, setCurrentId }) => {
   }, [post]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(postData);
     //If we have the access to currentid we are going to update the Post by giving it the id and updated Data else creating it
     if (currentId) {
       dispatch(updatePost(currentId, postData));
     } else {
       dispatch(createPost(postData));
     }
+    clear();
   };
-  const clear = () => {};
+  const clear = () => {
+    setCurrentId(null);
+    setpostData({
+      creator: "",
+      Title: "",
+      message: "",
+      tags: "",
+      selectedFile: "",
+    });
+  };
   return (
     <Paper className={classes.paper}>
       <form
@@ -43,7 +52,9 @@ const Form = ({ currentId, setCurrentId }) => {
         className={`${classes.form} ${classes.root}`}
         onSubmit={handleSubmit}
       >
-        <Typography variant="h6">Creating a Blog</Typography>
+        <Typography variant="h6">
+          {currentId ? "Editing" : "Creating"} a Blog
+        </Typography>
         <TextField
           name="creator"
           variant="outlined"

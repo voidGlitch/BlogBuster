@@ -23,7 +23,8 @@ const App = () => {
   useEffect(() => {
     //Dispatch Takes a Function to call
     dispatch(getPosts());
-  }, [dispatch]);
+    //when currentId is changing after we change the post we get fresh posts
+  }, [dispatch, currentId]);
 
   return (
     <Container maxWidth="lg">

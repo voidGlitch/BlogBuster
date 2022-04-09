@@ -1,4 +1,5 @@
 import PostMessage from "../modals/postMessage.js";
+import mongoose from "mongoose";
 
 // Defines all the function need to run on the routes
 export const getPosts = async (req, res) => {
@@ -30,12 +31,17 @@ export const updatePost = async (req, res) => {
   const { id: _id } = req.params;
   const post = req.body;
   // To Check the _id that it is mongoose id
-  if (mongoose.Type.ObjectId.isValid(_id))
+  if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).send("No post with this Id");
 
   //Hold our modal and Find&update by given updated post data
-  const updatePost = await PostMessage.findByIdAndUpdate(_id, post, {
-    new: true,
-  });
+  //Now we do get the post data which has {title,message,selectedFile,etc} but it doesn't contain id so
+  const updatePost = await PostMessage.findByIdAndUpdate(
+    _id,
+    { ...post, _id },
+    {
+      new: true,
+    }
+  );
   res.json(updatePost);
 };

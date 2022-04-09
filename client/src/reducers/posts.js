@@ -9,7 +9,7 @@ export default (posts = [], action) => {
       return action.payload;
 
     case "UPDATE":
-      //Going to map inside the post to check if the currently selected post is matched with updated post id
+      //Going to map inside the post to check if the currently selected post id is matched with updated post id
       return posts.map((post) =>
         post._id === action.payload._id ? action.payload : post
       );
