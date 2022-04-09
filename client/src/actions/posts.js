@@ -34,3 +34,16 @@ export const updatePost = (id, post) => async (dispatch) => {
     console.log(error.message);
   }
 };
+
+//Delete Post Function
+export const deletePost = (id) => async (dispact) => {
+  try {
+    //We dont need response of this as we are delete the data which is not existing anyways
+    await api.deletePost(id);
+
+    //Payload as id because we want to delete it
+    dispact({ type: "DELETE", payload: id });
+  } catch (error) {
+    console.log(error);
+  }
+};
