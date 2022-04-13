@@ -88,7 +88,10 @@ const Form = ({ currentId, setCurrentId }) => {
           variant="outlined"
           label="tags"
           fullWidth
-          onChange={(e) => setpostData({ ...postData, tags: e.target.value })}
+          //Split is used to split the text into two seperate words in this case for tags which will added in array as seperate
+          onChange={(e) =>
+            setpostData({ ...postData, tags: e.target.value.split(",") })
+          }
           value={postData.tags}
         />
         <div className={classes.fileInput}>

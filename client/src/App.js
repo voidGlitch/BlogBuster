@@ -45,12 +45,20 @@ const App = () => {
             container
             justifyContent="space-between"
             alignItems="stretch"
-            spacing={4}
+            spacing={3}
+            className={classes.mainContainer}
           >
             <Grid item xs={12} sm={7}>
               <Posts setCurrentId={setCurrentId} />
             </Grid>
-            <Grid item xs={7} sm={3}>
+            <Grid
+              style={{
+                maxWidth: "100%",
+              }}
+              item
+              xs={7}
+              sm={3}
+            >
               <Form currentId={currentId} setCurrentId={setCurrentId} />
             </Grid>
           </Grid>
