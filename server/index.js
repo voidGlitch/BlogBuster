@@ -19,7 +19,7 @@ app.use("/posts", router);
 // const CONNECTIONURL =
 //   "mongodb+srv://voidGlitch:voidGlitch123@cluster0.8lsei.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 5000;
 
 mongoose
   .connect(process.env.CONNECTION_URL, {
