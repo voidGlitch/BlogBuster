@@ -14,17 +14,37 @@ import Input from "./Input";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signin, signup } from "../../actions/auth";
+
+const initState = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+  confirmPassword: "",
+};
+
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setisSignUp] = useState(true);
+  const [formData, setformData] = useState(initState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleShowPassword = () =>
     setShowPassword((prevShowpassword) => !prevShowpassword);
 
-  const handleSubmit = () => {};
-  const handleChange = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (isSignUp) {
+      dispatch(signup(formData, navigate));
+    } else {
+      dispatch(signin(formData, navigate));
+    }
+  };
+  const handleChange = (e) => {
+    setformData({ ...formData, [e.target.name]: e.target.value });
+  };
   const switchMode = () => {
     setisSignUp(!isSignUp);
   };

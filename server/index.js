@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import router from "./routes/posts.js";
+import userRoutes from "./routes/users.js";
 import dotenv from "dotenv";
 
 const app = express();
@@ -14,6 +15,8 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/posts", router);
+//Add a route for user
+app.use("/user", userRoutes);
 
 //Step 1 Created a cluster database using Mongodb Atlas
 // const CONNECTIONURL =
