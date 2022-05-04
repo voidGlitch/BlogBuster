@@ -16,7 +16,11 @@ export const createPost = async (req, res) => {
   //Request the body from the client side(Frontend)
   const post = req.body;
   //body should be according to the schema defined by Mongoose
-  const newPost = new PostMessage(post);
+  const newPost = new PostMessage({
+    ...post,
+    creator: req.userId,
+    createdAt: new Date().toISOString(),
+  });
   try {
     //ASYNCHRONOUS FUNTION need to be await
     await newPost.save();
@@ -60,19 +64,30 @@ export const deletePost = async (req, res) => {
 //Like Post
 export const likePost = async (req, res) => {
   const { id: _id } = req.params;
+  //Logic to auth every single user to like the post only once
+  if (!req.userId) {
+    res.json({ message: "You are not authenticated" });
+  }
+
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).send("No post with this Id");
 
   //Firstly We are going to find that particular post
   const post = await PostMessage.findById(_id);
 
+  //Logic to auth every single user to like the post only once
+  const index = post.likes.findIndex((id) => id === String(req.userId)); //Finding the userId in the like section if already liked then operation doesn't perform
+
+  //Only if the userId is not in the like Section
+  if (index === -1) {
+    post.likes.push(req.userId);
+  } else {
+    post.likes = post.likes.filter((id) => id !== String(req.userId));
+  }
+
   //Then update the post by taking that particular post then Adding a like in it
-  const updatedPost = await PostMessage.findByIdAndUpdate(
-    _id,
-    {
-      likeCount: post.likeCount + 1,
-    },
-    { new: true }
-  );
-  res.json(updatedPost);
+  const updatedPost = await PostMessage.findByIdAndUpdate(_id, post, {
+    new: true,
+  });
+  res.status(200).json(updatedPost);
 };

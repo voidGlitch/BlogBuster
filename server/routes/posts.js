@@ -6,14 +6,15 @@ import {
   deletePost,
   likePost,
 } from "../controllers/posts.js";
+import auth from "../middleware/auth.js";
 
-const router = express.Router();
+const postRoutes = express.Router();
 
-router.get("/", getPosts);
-router.post("/", createPost);
+postRoutes.get("/", getPosts);
+postRoutes.post("/", auth, createPost);
 //Patch is for updating things exists in documents
-router.patch("/:id", updatePost);
-router.delete("/:id", deletePost);
-router.patch("/:id/likePost", likePost);
+postRoutes.patch("/:id", auth, updatePost);
+postRoutes.delete("/:id", auth, deletePost);
+postRoutes.patch("/:id/likePost", auth, likePost);
 
-export default router;
+export default postRoutes;

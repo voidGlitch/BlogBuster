@@ -27,7 +27,7 @@ const initState = {
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
-  const [isSignUp, setisSignUp] = useState(true);
+  const [isSignUp, setisSignUp] = useState(false);
   const [formData, setformData] = useState(initState);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,6 +47,7 @@ const Auth = () => {
   };
   const switchMode = () => {
     setisSignUp(!isSignUp);
+    setShowPassword(false);
   };
   const googleSuccess = async (response) => {
     //?. special operator used to not throw an error even if we dont have access to the response

@@ -1,8 +1,8 @@
 import bcrypt from "bcryptjs";
 //Safe a user credentials in browser for some period of time to stay logged in
-import Jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
-import User from "../modals/user";
+import User from "../modals/user.js";
 
 export const signin = async (req, res) => {
   const { email, password } = req.body;
@@ -52,7 +52,7 @@ export const signup = async (req, res) => {
     const token = jwt.sign({ email: result.email, id: result._id }, "test", {
       expiresIn: "1h",
     });
-    res.status(200).json({ result: existingUser, token });
+    res.status(200).json({ result: result, token });
   } catch (error) {
     res.status(400).json({ message: "Something went wrong" });
   }

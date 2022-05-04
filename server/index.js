@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
-import router from "./routes/posts.js";
+import postRoutes from "./routes/posts.js";
 import userRoutes from "./routes/users.js";
 import dotenv from "dotenv";
 
@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 //We need to use this before routes as we dont get any proxy errors from the cors
 app.use(cors());
 
-app.use("/posts", router);
+app.use("/posts", postRoutes);
 //Add a route for user
 app.use("/user", userRoutes);
 

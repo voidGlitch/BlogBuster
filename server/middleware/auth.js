@@ -1,8 +1,13 @@
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
+
+//Wants to like a post
+//Click the like button => auth middleware(NEXT) => likes the post....
+
 //Next is for do something and then move to the next thing
 const auth = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
+    const token = req.headers.Authorization.split(" ")[1];
+    //If length of the token is less than 500 then it is our own generated token if not then it is of google
     const isCustomAuth = token.length < 500;
 
     let decodedData;
@@ -20,3 +25,5 @@ const auth = async (req, res, next) => {
     console.log(error);
   }
 };
+
+export default auth;

@@ -26,7 +26,7 @@ const Input = ({
         InputProps={
           name === "password"
             ? {
-                endadorement: (
+                endAdornment: (
                   <InputAdornment position="end">
                     <IconButton onClick={handleShowPassword}>
                       {type === "password" ? <Visibility /> : <VisibilityOff />}
