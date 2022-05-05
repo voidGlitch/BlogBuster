@@ -14,17 +14,21 @@ export const getPosts = async (req, res) => {
 
 export const createPost = async (req, res) => {
   //Request the body from the client side(Frontend)
+  // title, message, selectedFile, creator, tags
   const post = req.body;
+
   //body should be according to the schema defined by Mongoose
-  const newPost = new PostMessage({
+  const newPostMessage = new PostMessage({
     ...post,
+    //Backend will now doesn't need creator feild as the logged in user is creator of the post
     creator: req.userId,
+    //Value to show the date when it was created
     createdAt: new Date().toISOString(),
   });
   try {
+    await newPostMessage.save();
     //ASYNCHRONOUS FUNTION need to be await
-    await newPost.save();
-    res.status(200).json(newPost);
+    res.status(200).json(newPostMessage);
   } catch (error) {
     res.status(404, { message: error.message });
   }

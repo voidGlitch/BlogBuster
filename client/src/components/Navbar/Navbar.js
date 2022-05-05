@@ -2,6 +2,7 @@ import { AppBar, Avatar, Button, Toolbar, Typography } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import memories from "../../Images/memories.png";
 import useStyles from "./styles.js";
+import decode from "jwt-decode";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
@@ -11,18 +12,25 @@ const Navbar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
-  console.log(user);
 
   const Logout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate("/");
     setUser(null);
+    navigate("/auth");
+  };
+  const Guest = () => {
+    navigate("/");
   };
 
   useEffect(() => {
     const token = user?.token;
 
     //JWT
+    if (token) {
+      const decodedToken = decode(token);
+      if (decodedToken.exp * 1000 < new Date().getTime()) Logout();
+    }
+
     setUser(JSON.parse(localStorage.getItem("profile")));
   }, [location]);
 
@@ -45,6 +53,16 @@ const Navbar = () => {
           height="60"
         />
       </div>
+      {!user && (
+        <Button
+          variant="contained"
+          className={classes.logout}
+          color="secondary"
+          onClick={Guest}
+        >
+          Sign in as guest
+        </Button>
+      )}
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>
@@ -55,6 +73,7 @@ const Navbar = () => {
             >
               {user.result.name.charAt(0)}
             </Avatar>
+
             <Typography className={classes.userName} variant="h6">
               {user.result.name}
             </Typography>

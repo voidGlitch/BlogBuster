@@ -9,6 +9,7 @@ API.interceptors.request.use((req) => {
       JSON.parse(localStorage.getItem("profile")).token
     }`;
   }
+  //So that we can make all the request below
   return req;
 });
 

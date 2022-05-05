@@ -14,34 +14,74 @@ import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
+import { ThumbUpAltOutlined } from "@material-ui/icons";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
+  console.log(user);
+
+  const Likes = () => {
+    console.log(post.likes);
+    if (post.likes.length > 0) {
+      return post.likes.find(
+        (like) => like === (user?.result?.googleId || user?.result?._id)
+      ) ? (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          &nbsp;
+          {post.likes.length > 2
+            ? `You and ${post.likes.length - 1} others`
+            : `${post.likes.length} like${post.likes.length > 1 ? "s" : ""}`}
+        </>
+      ) : (
+        <>
+          <ThumbUpAltIcon fontSize="small" />
+          {post.likes.length} {post.likes.length === 1 ? "Like" : "Likes"}
+        </>
+      );
+    } else {
+      return (
+        <>
+          <ThumbUpAltOutlined fontSize="small" />
+          &nbsp;Like
+        </>
+      );
+    }
+  };
+
   return (
     <Card className={classes.card}>
       <CardMedia
         className={classes.media}
-        image={post.selectedFile}
+        image={
+          post.selectedFile
+            ? post.selectedFile
+            : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png?20190827162820"
+        }
         title={post.title}
       />
       <div className={classes.overlay}>
-        <Typography variant="h6">{post.creator}</Typography>
+        <Typography variant="h6">{post.name}</Typography>
         <Typography variant="body2">
           {moment(post.createdAt).fromNow()}
         </Typography>
       </div>
-      <div className={classes.overlay2}>
-        <Button
-          style={{ color: "white" }}
-          size="small"
-          onClick={() => {
-            setCurrentId(post._id);
-          }}
-        >
-          <MoreHorizIcon fontSize="medium" />
-        </Button>
-      </div>
+      {(user?.result?.googleId === post?.creator ||
+        user?.result?._id === post?.creator) && (
+        <div className={classes.overlay2}>
+          <Button
+            style={{ color: "white" }}
+            size="small"
+            onClick={() => {
+              setCurrentId(post._id);
+            }}
+          >
+            <MoreHorizIcon fontSize="medium" />
+          </Button>
+        </div>
+      )}
       <div className={classes.details}>
         <Typography variant="body2" color="textSecondary">
           {post.tags.map((tag) => `#${tag} `)}
@@ -64,24 +104,26 @@ const Post = ({ post, setCurrentId }) => {
         <Button
           size="small"
           color="primary"
+          disabled={!user?.result}
           onClick={() => {
             dispatch(likePost(post._id));
           }}
         >
-          <ThumbUpAltIcon fontSize="small" />
-          &nbsp; like &nbsp;
-          {post.likeCount}
+          <Likes />
         </Button>
-        <Button
-          size="small"
-          color="primary"
-          onClick={() => {
-            dispatch(deletePost(post._id));
-          }}
-        >
-          <DeleteIcon fontSize="small" />
-          Delete
-        </Button>
+        {(user?.result?.googleId === post?.creator ||
+          user?.result?._id === post?.creator) && (
+          <Button
+            size="small"
+            color="primary"
+            onClick={() => {
+              dispatch(deletePost(post._id));
+            }}
+          >
+            <DeleteIcon fontSize="small" />
+            Delete
+          </Button>
+        )}
       </CardActions>
     </Card>
   );

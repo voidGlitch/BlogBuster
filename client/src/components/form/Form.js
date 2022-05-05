@@ -10,7 +10,6 @@ import { useSelector } from "react-redux";
 const Form = ({ currentId, setCurrentId }) => {
   const classes = useStyles();
   const [postData, setpostData] = useState({
-    creator: "",
     Title: "",
     message: "",
     tags: "",
@@ -20,6 +19,7 @@ const Form = ({ currentId, setCurrentId }) => {
   const post = useSelector((state) =>
     currentId ? state.posts.find((p) => p._id === currentId) : null
   );
+  const user = JSON.parse(localStorage.getItem("profile"));
   const dispatch = useDispatch();
   useEffect(() => {
     if (post) setpostData(post);
@@ -28,16 +28,26 @@ const Form = ({ currentId, setCurrentId }) => {
     e.preventDefault();
     //If we have the access to currentid we are going to update the Post by giving it the id and updated Data else creating it
     if (currentId) {
-      dispatch(updatePost(currentId, postData));
+      dispatch(
+        updatePost(currentId, { ...postData, name: user?.result?.name })
+      );
     } else {
-      dispatch(createPost(postData));
+      dispatch(createPost({ ...postData, name: user?.result?.name }));
     }
     clear();
   };
+  if (!user?.result?.name) {
+    return (
+      <Paper className={classes.paper}>
+        <Typography variant="h6" align="center">
+          Please Sign in to create your own memories and Like other's post
+        </Typography>
+      </Paper>
+    );
+  }
   const clear = () => {
     setCurrentId(null);
     setpostData({
-      creator: "",
       Title: "",
       message: "",
       tags: "",
@@ -55,16 +65,7 @@ const Form = ({ currentId, setCurrentId }) => {
         <Typography variant="h6">
           {currentId ? "Editing" : "Creating"} a Blog
         </Typography>
-        <TextField
-          name="creator"
-          variant="outlined"
-          label="Creator"
-          fullWidth
-          onChange={(e) =>
-            setpostData({ ...postData, creator: e.target.value })
-          }
-          value={postData.creator}
-        />
+
         <TextField
           name="Title"
           variant="outlined"
@@ -129,3 +130,17 @@ const Form = ({ currentId, setCurrentId }) => {
 };
 
 export default Form;
+
+{
+  /* As we defined creator by logged in user we dont need it 
+        <TextField
+          name="creator"
+          variant="outlined"
+          label="Creator"
+          fullWidth
+          onChange={(e) =>
+            setpostData({ ...postData, creator: e.target.value })
+          }
+          value={postData.creator}
+        /> */
+}

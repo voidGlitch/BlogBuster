@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 const postSchema = mongoose.Schema({
   Title: String,
   message: String,
+  //Name of the person currently logged in
   name: String,
   creator: String,
   tags: [String],
@@ -13,7 +14,7 @@ const postSchema = mongoose.Schema({
     default: [],
   },
   createdAt: {
-    type: Number,
+    type: Date,
     default: new Date(),
   },
 });

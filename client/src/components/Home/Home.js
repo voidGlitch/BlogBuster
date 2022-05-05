@@ -8,7 +8,6 @@ import { getPosts } from "../../actions/posts";
 
 const Home = () => {
   const [currentId, setCurrentId] = useState(null);
-
   //Define dispatch
   const dispatch = useDispatch();
 
