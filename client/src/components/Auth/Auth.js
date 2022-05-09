@@ -13,7 +13,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 
 const initState = {
@@ -29,7 +29,7 @@ const Auth = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSignUp, setisSignUp] = useState(false);
   const [formData, setformData] = useState(initState);
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const dispatch = useDispatch();
   const handleShowPassword = () =>
     setShowPassword((prevShowpassword) => !prevShowpassword);
@@ -56,7 +56,7 @@ const Auth = () => {
     try {
       const action = { type: "AUTH", data: { result, token } };
       dispatch(action);
-      navigate("/");
+      navigate.push("/");
     } catch (error) {
       console.log(error);
     }

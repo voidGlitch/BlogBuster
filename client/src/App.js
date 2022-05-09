@@ -1,28 +1,33 @@
 import { Container } from "@material-ui/core";
-import React, { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React from "react";
+import { BrowserRouter, Route, Redirect, Switch } from "react-router-dom";
 
 //useSelector is a function that takes the current state as an argument and returns whatever data you want from it and it allows you to store the return values inside a variable within the scope of you functional components instead of passing down as props.
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
+import PostDetails from "./components/PostDetails/PostDetails";
 import Auth from "./components/Auth/Auth";
-import { getPosts } from "./actions/posts";
 
 const App = () => {
   // //define useSelectors
-  const posts = useSelector((state) => state.posts);
-  const dispatch = useDispatch();
-  console.log(posts);
+  const user = localStorage.getItem("profile");
 
   return (
     <BrowserRouter>
-      <Container maxWidth="lg">
+      <Container maxWidth="xl">
         <Navbar />
-        <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/auth" exact element={<Auth />} />
-        </Routes>
+        <Switch>
+          <Route path="/" exact component={() => <Redirect to="/posts" />} />
+          <Route path="/posts" exact component={Home} />
+          <Route path="/posts/search?searchQuery" exact component={Home} />
+          <Route path="/posts/:id" component={PostDetails} />
+          <Route
+            path="/auth"
+            exact
+            component={() => (!user ? <Auth /> : <Redirect to="/posts" />)}
+          />
+        </Switch>
       </Container>
     </BrowserRouter>
   );

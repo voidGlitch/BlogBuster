@@ -3,23 +3,20 @@ import React, { useEffect, useState } from "react";
 import memories from "../../Images/memories.png";
 import useStyles from "./styles.js";
 import decode from "jwt-decode";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
 const Navbar = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useHistory();
   const location = useLocation();
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
 
   const Logout = () => {
     dispatch({ type: "LOGOUT" });
     setUser(null);
-    navigate("/auth");
-  };
-  const Guest = () => {
-    navigate("/");
+    navigate.push("/");
   };
 
   useEffect(() => {
@@ -53,16 +50,7 @@ const Navbar = () => {
           height="60"
         />
       </div>
-      {!user && (
-        <Button
-          variant="contained"
-          className={classes.logout}
-          color="secondary"
-          onClick={Guest}
-        >
-          Sign in as guest
-        </Button>
-      )}
+
       <Toolbar className={classes.toolbar}>
         {user ? (
           <div className={classes.profile}>
