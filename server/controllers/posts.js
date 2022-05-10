@@ -95,3 +95,25 @@ export const likePost = async (req, res) => {
   });
   res.status(200).json(updatedPost);
 };
+
+//Query -> /posts?page=1 -> page =1
+//Params -> /posts/123 -> id=123
+
+//Gets posts by search
+export const getPostsBySearch = async (req, res) => {
+  //Getting data from the Query
+  const { searchQuery, tags } = req.query;
+  try {
+    //The RegExp object is used for matching text with a pattern.The i Stand for ignore case
+    //Test TEST test its all same
+    const title = new RegExp(searchQuery, "i");
+    //Find me all the post match with one of these ("or") i.e equal to title or Tags ("in") the array of tags equal to our tag
+    const posts = await PostMessage.find({
+      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+    });
+    //Sending the results back to frontend
+    res.json({ data: posts });
+  } catch (error) {
+    res.status(404).json({ message: error.message });
+  }
+};

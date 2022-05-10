@@ -15,6 +15,14 @@ API.interceptors.request.use((req) => {
 
 //Simply return all the posts in the database
 export const fetchPosts = () => API.get("/posts");
+export const fetchPostsBySearch = (SearchQuery) =>
+  API.get(
+    `/posts/search?searchQuery=${SearchQuery.search || "none"}&tags=${
+      SearchQuery.tags || "none"
+    }`
+  );
+/*NOTE-Endpoint is a point at which an API -- the code that allows two software programs to communicate with each other -- connects with the software program.  */
+//New data is the requested body we are sending to the URL/endpoint
 
 export const createPosts = (NewData) => API.post("/posts", NewData);
 

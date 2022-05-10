@@ -19,8 +19,19 @@ export const getPosts = () => async (dispatch) => {
   }
   // return action instead of returning the action we need to do just dispatch the action in redux-thunk
 };
-/*As we are dealing with ASYNCRONOUS function we need to await and for that we use thunk allows us in here an additional arrow function*/
 
+//Creating action for getting post on search
+export const getPostsbySearch = (SearchQuery) => async (dispatch) => {
+  try {
+    //We need to destructure data 2 time as first time it is by axios request and second time as we store the data in an new object with data property
+    const { data } = await api.fetchPostsBySearch(SearchQuery);
+    console.log(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+/*As we are dealing with ASYNCRONOUS function we need to await and for that we use thunk allows us in here an additional arrow function*/
 export const createPost = (post) => async (dispatch) => {
   try {
     //As create posts function wants somedata to work on and then send it to the server
