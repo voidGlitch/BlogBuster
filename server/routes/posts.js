@@ -11,8 +11,8 @@ import auth from "../middleware/auth.js";
 
 const postRoutes = express.Router();
 
-postRoutes.get("/", getPosts);
 postRoutes.get("/search", getPostsBySearch);
+postRoutes.get("/", getPosts);
 postRoutes.post("/", auth, createPost);
 //Patch is for updating things exists in documents
 postRoutes.patch("/:id", auth, updatePost);

@@ -6,6 +6,7 @@ import {
   DELETE,
   LIKE,
   CREATE,
+  FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 /*🤔As we are dealing with Posts data so we rename state as posts for now */
 export default (posts = [], action) => {
@@ -14,7 +15,13 @@ export default (posts = [], action) => {
     case FETCH_ALL:
       return action.payload;
 
+    case FETCH_BY_SEARCH:
+      return action.payload;
+
     case UPDATE:
+      return posts.map((post) =>
+        post._id === action.payload._id ? action.payload : post
+      );
     case LIKE:
       //Going to map inside the post to check if the currently selected post id is matched with updated post id
       return posts.map((post) =>

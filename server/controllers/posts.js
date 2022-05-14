@@ -106,11 +106,12 @@ export const getPostsBySearch = async (req, res) => {
   try {
     //The RegExp object is used for matching text with a pattern.The i Stand for ignore case
     //Test TEST test its all same
-    const title = new RegExp(searchQuery, "i");
+    const Title = new RegExp(searchQuery, "i");
     //Find me all the post match with one of these ("or") i.e equal to title or Tags ("in") the array of tags equal to our tag
     const posts = await PostMessage.find({
-      $or: [{ title }, { tags: { $in: tags.split(",") } }],
+      $or: [{ Title: Title }, { tags: { $in: tags.split(",") } }],
     });
+
     //Sending the results back to frontend
     res.json({ data: posts });
   } catch (error) {

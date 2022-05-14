@@ -5,6 +5,7 @@ import {
   DELETE,
   LIKE,
   CREATE,
+  FETCH_BY_SEARCH,
 } from "../constants/actionTypes";
 
 //Action creators are function that return function
@@ -12,6 +13,7 @@ export const getPosts = () => async (dispatch) => {
   try {
     //Fetch all the data from the api we destructure it as it return the response to the data
     const { data } = await api.fetchPosts();
+    console.log(data);
     const action = { type: FETCH_ALL, payload: data };
     dispatch(action);
   } catch (error) {
@@ -21,11 +23,15 @@ export const getPosts = () => async (dispatch) => {
 };
 
 //Creating action for getting post on search
-export const getPostsbySearch = (SearchQuery) => async (dispatch) => {
+export const getPostsbySearch = (searchQuery) => async (dispatch) => {
   try {
     //We need to destructure data 2 time as first time it is by axios request and second time as we store the data in an new object with data property
-    const { data } = await api.fetchPostsBySearch(SearchQuery);
+    const {
+      data: { data },
+    } = await api.fetchPostsBySearch(searchQuery);
     console.log(data);
+    const action = { type: FETCH_BY_SEARCH, payload: data };
+    dispatch(action);
   } catch (error) {
     console.log(error);
   }

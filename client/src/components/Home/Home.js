@@ -39,6 +39,7 @@ const Home = () => {
   useEffect(() => {
     //Dispatch Takes a Function to call
     dispatch(getPosts());
+    console.log("refresh");
     //when currentId is changing after we change the post we get fresh posts
   }, [dispatch, currentId]);
 

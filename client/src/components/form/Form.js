@@ -77,6 +77,8 @@ const Form = ({ currentId, setCurrentId }) => {
         <TextField
           name="message"
           variant="outlined"
+          rows={6}
+          multiline
           label="message"
           fullWidth
           onChange={(e) =>
