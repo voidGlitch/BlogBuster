@@ -7,10 +7,13 @@ import useStyles from "./Styles";
 
 const Posts = ({ setCurrentId }) => {
   //The State which we are using currently is the posts array
-  const posts = useSelector((state) => state.posts);
-  console.log({ posts });
+  const { posts, isLoading } = useSelector((state) => state.posts); // Now before we are getting the array and now we are getting the object -> [] -> {posts:[]}
+  console.log(posts);
   const classes = useStyles();
-  return !posts.length ? (
+
+  if (!posts?.length && !isLoading) return "No Posts";
+
+  return isLoading ? (
     <CircularProgress />
   ) : (
     <Grid

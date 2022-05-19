@@ -6,18 +6,24 @@ import {
   LIKE,
   CREATE,
   FETCH_BY_SEARCH,
+  START_LOADING,
+  END_LOADING,
 } from "../constants/actionTypes";
 
 //Action creators are function that return function
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
     //Fetch all the data from the api we destructure it as it return the response to the data
-    const { data } = await api.fetchPosts();
+    const { data } = await api.fetchPosts(page);
     console.log(data);
+
     const action = { type: FETCH_ALL, payload: data };
     dispatch(action);
+
+    dispatch({ type: END_LOADING });
   } catch (error) {
-    console.log(error.message);
+    console.log(error);
   }
   // return action instead of returning the action we need to do just dispatch the action in redux-thunk
 };
@@ -25,6 +31,8 @@ export const getPosts = () => async (dispatch) => {
 //Creating action for getting post on search
 export const getPostsbySearch = (searchQuery) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
+
     //We need to destructure data 2 time as first time it is by axios request and second time as we store the data in an new object with data property
     const {
       data: { data },
@@ -32,6 +40,8 @@ export const getPostsbySearch = (searchQuery) => async (dispatch) => {
     console.log(data);
     const action = { type: FETCH_BY_SEARCH, payload: data };
     dispatch(action);
+
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error);
   }
@@ -40,10 +50,14 @@ export const getPostsbySearch = (searchQuery) => async (dispatch) => {
 /*As we are dealing with ASYNCRONOUS function we need to await and for that we use thunk allows us in here an additional arrow function*/
 export const createPost = (post) => async (dispatch) => {
   try {
+    dispatch({ type: START_LOADING });
+
     //As create posts function wants somedata to work on and then send it to the server
     const { data } = await api.createPosts(post);
     const action = { type: CREATE, payload: data };
     dispatch(action);
+
+    dispatch({ type: END_LOADING });
   } catch (error) {
     console.log(error.message);
   }

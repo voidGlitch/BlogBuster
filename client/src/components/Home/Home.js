@@ -6,7 +6,6 @@ import {
   AppBar,
   TextField,
   Button,
-  Chip,
 } from "@material-ui/core";
 import React, { useEffect, useState } from "react";
 import ChipInput from "material-ui-chip-input";
@@ -35,13 +34,14 @@ const Home = () => {
   const [search, setSearch] = useState("");
   const [tags, setTags] = useState([]);
 
-  //Now As we want our dispact to mount manually we use useEffect
-  useEffect(() => {
-    //Dispatch Takes a Function to call
-    dispatch(getPosts());
-    console.log("refresh");
-    //when currentId is changing after we change the post we get fresh posts
-  }, [dispatch, currentId]);
+  /* As we add the pagination feature we no longer need the useEffect to getallposts */
+  // //Now As we want our dispact to mount manually we use useEffect
+  // useEffect(() => {
+  //   //Dispatch Takes a Function to call
+  //   dispatch(getPosts(page));
+  //   console.log("refresh");
+  //   //when currentId is changing after we change the post we get fresh posts
+  // }, [dispatch, currentId]);
 
   const handleKeypress = (e) => {
     if (e.keyCode === 13) {
@@ -115,9 +115,11 @@ const Home = () => {
               </Button>
             </AppBar>
             <Form currentId={currentId} setCurrentId={setCurrentId} />
-            <Paper elevation={6}>
-              <Paginate />
-            </Paper>
+            {!searchQuery && !tags.length && (
+              <Paper elevation={6} className={classes.pagination}>
+                <Paginate page={page} />
+              </Paper>
+            )}
           </Grid>
         </Grid>
       </Container>

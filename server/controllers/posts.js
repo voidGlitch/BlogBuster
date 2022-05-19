@@ -3,10 +3,25 @@ import mongoose from "mongoose";
 
 // Defines all the function need to run on the routes
 export const getPosts = async (req, res) => {
+  //Getting the Page Query from the endpoint query
+  const { page } = req.query;
+
   try {
+    const LIMIT = 4;
+    //Start index of a post on a specific page
+    const startIndex = (Number(page) - 1) * LIMIT; //Get the starting index of every page
+    //TO know what is the last page we can scroll to
+    const total = await PostMessage.countDocuments({});
     //Function to find all the posts we have created
-    const postMessages = await PostMessage.find();
-    res.status(200).json(postMessages);
+    const posts = await PostMessage.find()
+      .sort({ _id: -1 }) //Newest to oldest
+      .limit(LIMIT) //8 PAGE limit
+      .skip(startIndex); //Skip all the prev pages
+    res.status(200).json({
+      data: posts,
+      currentPage: Number(page),
+      numberofPages: Math.ceil(total / LIMIT), //Total no. of pages
+    });
   } catch (error) {
     res.status(404, { message: error.message });
   }

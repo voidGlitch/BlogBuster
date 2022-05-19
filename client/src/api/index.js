@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getPosts } from "../actions/posts";
 
 const API = axios.create({ baseURL: "http://localhost:5000" });
 
@@ -10,11 +11,13 @@ API.interceptors.request.use((req) => {
     }`;
   }
   //So that we can make all the request below
+  getPosts;
   return req;
 });
 
 //Simply return all the posts in the database
-export const fetchPosts = () => API.get("/posts");
+//Passing data to the backend in the form of page
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
 export const fetchPostsBySearch = (SearchQuery) =>
   API.get(
     `/posts/search?searchQuery=${SearchQuery.search || "none"}&tags=${
