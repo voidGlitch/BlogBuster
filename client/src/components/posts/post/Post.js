@@ -22,7 +22,6 @@ const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
-  // console.log(user);
 
   const Likes = () => {
     if (post.likes.length > 0) {
@@ -57,21 +56,42 @@ const Post = ({ post, setCurrentId }) => {
   };
 
   return (
-    <Card className={classes.card} raised elevation={6} onClick={openPosts}>
-      <CardMedia
-        className={classes.media}
-        image={
-          post.selectedFile
-            ? post.selectedFile
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png?20190827162820"
-        }
-        title={post.title}
-      />
-      <div className={classes.overlay}>
-        <Typography variant="h6">{post.name}</Typography>
-        <Typography variant="body2">
-          {moment(post.createdAt).fromNow()}
+    <Card className={classes.card} raised elevation={6}>
+      <div onClick={openPosts}>
+        <CardMedia
+          className={classes.media}
+          image={
+            post.selectedFile
+              ? post.selectedFile
+              : "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/No_image_available.svg/450px-No_image_available.svg.png?20190827162820"
+          }
+          title={post.title}
+        />
+        <div className={classes.overlay}>
+          <Typography variant="h6">{post.name}</Typography>
+          <Typography variant="body2">
+            {moment(post.createdAt).fromNow()}
+          </Typography>
+        </div>
+
+        <div className={classes.details}>
+          <Typography variant="body2" color="textSecondary">
+            {post.tags.map((tag) => `#${tag} `)}
+          </Typography>
+        </div>
+        <Typography className={classes.title} variant="h5" gutterBottom>
+          {post.Title}:
         </Typography>
+        <CardContent>
+          <Typography
+            className={classes.title}
+            color="textSecondary"
+            component="p"
+            variant="body2"
+          >
+            {post.message}
+          </Typography>
+        </CardContent>
       </div>
       {(user?.result?.googleId === post?.creator ||
         user?.result?._id === post?.creator) && (
@@ -87,24 +107,6 @@ const Post = ({ post, setCurrentId }) => {
           </Button>
         </div>
       )}
-      <div className={classes.details}>
-        <Typography variant="body2" color="textSecondary">
-          {post.tags.map((tag) => `#${tag} `)}
-        </Typography>
-      </div>
-      <Typography className={classes.title} variant="h5" gutterBottom>
-        {post.Title}:
-      </Typography>
-      <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          component="p"
-          variant="body2"
-        >
-          {post.message}
-        </Typography>
-      </CardContent>
       <CardActions className={classes.cardActions}>
         <Button
           size="small"

@@ -37,7 +37,13 @@ const Navbar = () => {
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        <img className={classes.image} src={Blog} alt="icon" height="65px" />
+        <img
+          className={classes.image}
+          src={Blog}
+          alt="icon"
+          height="65px"
+          onClick={Back}
+        />
         {/* <img className={classes.image} src={Blog} alt="memories" height="60" /> */}
       </div>
 

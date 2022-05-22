@@ -19,6 +19,9 @@ export default makeStyles((theme) => ({
     borderRadius: "20px",
     margin: "10px",
     flex: 1,
+    [theme.breakpoints.down("sm")]: {
+      marginTop: "100px",
+    },
   },
   imageSection: {
     marginLeft: "20px",
@@ -29,6 +32,9 @@ export default makeStyles((theme) => ({
   recommendedPosts: {
     display: "flex",
     [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
