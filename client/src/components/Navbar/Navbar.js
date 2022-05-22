@@ -18,6 +18,9 @@ const Navbar = () => {
     setUser(null);
     navigate.push("/");
   };
+  const Back = () => {
+    navigate.push("/");
+  };
 
   useEffect(() => {
     const token = user?.token;
@@ -34,7 +37,7 @@ const Navbar = () => {
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
       <div className={classes.brandContainer}>
-        <img className={classes.image} src={Blog} alt="icon" height="80px" />
+        <img className={classes.image} src={Blog} alt="icon" height="65px" />
         {/* <img className={classes.image} src={Blog} alt="memories" height="60" /> */}
       </div>
 

@@ -18,6 +18,7 @@ API.interceptors.request.use((req) => {
 //Simply return all the posts in the database
 //Passing data to the backend in the form of page
 export const fetchPosts = (page) => API.get(`/posts?page=${page}`);
+export const fetchPost = (id) => API.get(`/posts/${id}`);
 export const fetchPostsBySearch = (SearchQuery) =>
   API.get(
     `/posts/search?searchQuery=${SearchQuery.search || "none"}&tags=${

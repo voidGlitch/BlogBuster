@@ -7,6 +7,7 @@ import {
   CardMedia,
   Button,
   Typography,
+  ButtonBase,
 } from "@material-ui/core";
 import ThumbUpAltIcon from "@material-ui/icons/ThumbUpAlt";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -15,6 +16,7 @@ import moment from "moment";
 import { useDispatch } from "react-redux";
 import { deletePost, likePost } from "../../../actions/posts";
 import { ThumbUpAltOutlined } from "@material-ui/icons";
+import { useHistory } from "react-router-dom";
 
 const Post = ({ post, setCurrentId }) => {
   const classes = useStyles();
@@ -49,9 +51,13 @@ const Post = ({ post, setCurrentId }) => {
       );
     }
   };
+  const history = useHistory();
+  const openPosts = () => {
+    history.push(`/posts/${post._id}`);
+  };
 
   return (
-    <Card className={classes.card} raised elevation={6}>
+    <Card className={classes.card} raised elevation={6} onClick={openPosts}>
       <CardMedia
         className={classes.media}
         image={

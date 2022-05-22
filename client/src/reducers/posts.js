@@ -9,6 +9,7 @@ import {
   FETCH_BY_SEARCH,
   START_LOADING,
   END_LOADING,
+  FETCH_POST,
 } from "../constants/actionTypes";
 /*🤔As we are dealing with Posts data so we rename state as posts for now */
 export default (state = { isLoading: true, posts: [] }, action) => {
@@ -30,6 +31,9 @@ export default (state = { isLoading: true, posts: [] }, action) => {
 
     case FETCH_BY_SEARCH:
       return { ...state, posts: action.payload };
+
+    case FETCH_POST:
+      return { ...state, post: action.payload };
 
     case UPDATE:
       return {
