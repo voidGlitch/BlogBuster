@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from "react-redux";
 import useStyles from "./Styles";
 import { getPost, getPostsbySearch } from "../../actions/posts";
 import Recommend from "./Recommend";
+import CommentSection from "./CommentSection";
 
 const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
@@ -68,8 +69,8 @@ const PostDetails = () => {
           </Typography>
 
           <Divider style={{ margin: "20px 0" }} />
-          <Typography variant="body1">
-            <strong>Comments - coming soon!</strong>
+          <Typography variant="body1" component="h1">
+            <CommentSection post={post} />
           </Typography>
           <Divider style={{ margin: "20px 0" }} />
         </div>

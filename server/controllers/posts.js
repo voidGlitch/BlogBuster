@@ -1,6 +1,8 @@
 import PostMessage from "../modals/postMessage.js";
 import mongoose from "mongoose";
+import express from "express";
 
+const router = express.Router();
 // Defines all the function need to run on the routes
 export const getPosts = async (req, res) => {
   //Getting the Page Query from the endpoint query
@@ -143,3 +145,24 @@ export const getPost = async (req, res) => {
     res.status(404).json({ message: error.message });
   }
 };
+
+//Comment Post functionality
+
+export const commentPost = async (req, res) => {
+  //Id comes from api request
+  const { id } = req.params;
+  //passing an object containing value
+  const { value } = req.body;
+
+  //Getting post from database
+  const post = await PostMessage.findById(id);
+  //Adding comments in that post
+  post.comments.push(value);
+  //And then updating the database so that new post contain the comments and storing the value in the updatePost variable
+  const updatedPost = await PostMessage.findByIdAndUpdate(id, post, {
+    new: true,
+  });
+  res.json(updatedPost);
+};
+
+export default router;
