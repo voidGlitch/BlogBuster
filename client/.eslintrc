@@ -6,7 +6,7 @@
     "node": true,
     "es6": true
   },
-  "parser": "babel-eslint",
+  "parser": "react-scripts/node_modules/babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {
