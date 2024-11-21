@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getPosts } from "../actions/posts";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const API = axios.create({ baseURL: "https://blogbuster-4k70.onrender.com" });
 
 //Fuction happen on each one of our request
 API.interceptors.request.use((req) => {
