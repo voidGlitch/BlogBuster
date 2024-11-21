@@ -1,7 +1,10 @@
 
 ---
 
-# Online Blog Application - using MERN stack
+# Online Blog Application - MERN Stack
+
+Check out the live version of the blog application here: [Live Blog Application](https://blogbuster-five.vercel.app/posts)
+
 
 Welcome to the Online Blog Application, built using the **MERN** stack (MongoDB, Express, React, Node.js). This application allows users to create, read, update, delete (CRUD) blog posts with images, messages, and tags. It also supports memory search, filters, and pagination to help users navigate through posts easily.
 
