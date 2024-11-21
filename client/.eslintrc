@@ -1,12 +1,13 @@
 {
-  "extends": "eslint:recommended",
+  "parser": "@babel/eslint-parser",
+  "extends": ["react-app", "eslint:recommended"],
+  "plugins": ["react"],
   "env": {
     "browser": true,
     "commonjs": true,
     "node": true,
     "es6": true
   },
-  "parser": "react-scripts/node_modules/babel-eslint",
   "parserOptions": {
     "ecmaVersion": 2018,
     "ecmaFeatures": {
